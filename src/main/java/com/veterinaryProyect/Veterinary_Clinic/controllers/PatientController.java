@@ -27,4 +27,9 @@ public class PatientController {
     @DeleteMapping(path = "/patient/{id}")
     public void deletePatientById(@PathVariable("id") Long id) {patientServices.deletePatient(id); }
 
+    @PostMapping(path = "/patients")
+    public Patient createPatient(@RequestBody Patient patient) {
+        return patientServices.createPatient(patient);
+    }
+
 }

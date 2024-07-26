@@ -25,4 +25,8 @@ public class PatientServices {
     }
 
     public void deletePatient(long id) {iPatientRepository.deleteById(id); }
+
+    public Patient createPatient(Patient patient) {
+        return iPatientRepository.save(patient);
+    }
 }

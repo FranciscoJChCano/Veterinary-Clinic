@@ -31,4 +31,9 @@ public class AppointmentController {
 
     }
 
+    @PostMapping(path = "/appointments")
+    public Appointment createAppointment(@RequestBody Appointment appointment) {
+        return appointmentServices.createAppointment(appointment);
+    }
+
 }

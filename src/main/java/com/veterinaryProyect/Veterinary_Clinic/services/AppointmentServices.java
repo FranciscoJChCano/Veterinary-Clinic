@@ -27,5 +27,8 @@ public class AppointmentServices {
 
     public void deleteAppointment(long id) {iAppointmentRepository.deleteById(id); }
 
+    public Appointment createAppointment(Appointment appointment) {
+        return iAppointmentRepository.save(appointment);
+    }
 
 }
