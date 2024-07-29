@@ -15,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class AppointmentServicesTest {
@@ -89,6 +91,32 @@ public class AppointmentServicesTest {
 
         assertNotNull(result);
         verify(iAppointmentRepository).save(any(Appointment.class));
+    }
+
+    @Test
+    void testGetAllAppointment() {
+        ArrayList<Appointment> AppointmentList = new ArrayList<>();
+        Appointment appointment = new Appointment();
+        AppointmentList.add(appointment);
+
+        when(iAppointmentRepository.findAll()).thenReturn(AppointmentList);
+
+        List<Appointment> result = appointmentServices.getAllAppointment();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(iAppointmentRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetAppointmentById() {
+        Appointment appointment = new Appointment();
+        when(iAppointmentRepository.findById(1L)).thenReturn(Optional.of(appointment));
+
+        Appointment result = appointmentServices.getById(1L);
+
+        assertNotNull(result);
+        verify(iAppointmentRepository, times(1)).findById(1L);
     }
 }
 

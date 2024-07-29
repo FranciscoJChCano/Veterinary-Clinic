@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.veterinaryProyect.Veterinary_Clinic.models.Patient;
 import com.veterinaryProyect.Veterinary_Clinic.services.PatientServices;
@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = PatientController.class)
@@ -139,5 +140,30 @@ public class PatientControllerTest {
                         .content("{\"id\":1,\"name\":\"Buddy\",\"age\":5,\"breed\":\"Golden Retriever\",\"gender\":\"Male\",\"identificationNumber\":\"12345\",\"tutorFirstName\":\"John\",\"tutorLastName\":\"Doe\",\"tutorPhoneNumber\":\"555-1234\"}"))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void testGetAllPatient() throws Exception {
+        when(patientServices.getAllPatient()).thenReturn(new ArrayList<>());
+
+        mockMvc.perform(get("/patient").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(patientServices, times(1)).getAllPatient();
+    }
+
+    @Test
+    void testGetPatientById() throws Exception {
+        Patient patient = new Patient();
+        patient.setId(1L);
+
+
+        when(patientServices.getById(1L)).thenReturn(patient);
+
+        mockMvc.perform(get("/patient/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1));
+
+        verify(patientServices, times(1)).getById(1L);
     }
 }

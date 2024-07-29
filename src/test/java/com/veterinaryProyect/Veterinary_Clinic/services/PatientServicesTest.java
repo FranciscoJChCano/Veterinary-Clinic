@@ -15,6 +15,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @SpringBootTest
 public class PatientServicesTest {
 
@@ -101,5 +105,31 @@ public class PatientServicesTest {
 
         assertNotNull(result);
         verify(iPatientRepository).save(any(Patient.class));
+    }
+
+    @Test
+    void testGetAllPatient() {
+        ArrayList<Patient> PatientList = new ArrayList<>();
+        Patient patient = new Patient();
+        PatientList.add(patient);
+
+        when(iPatientRepository.findAll()).thenReturn(PatientList);
+
+        List<Patient> result = patientService.getAllPatient();
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        verify(iPatientRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetPatientById() {
+        Patient patient = new Patient();
+        when(iPatientRepository.findById(1L)).thenReturn(Optional.of(patient));
+
+        Patient result = patientService.getById(1L);
+
+        assertNotNull(result);
+        verify(iPatientRepository, times(1)).findById(1L);
     }
 }
