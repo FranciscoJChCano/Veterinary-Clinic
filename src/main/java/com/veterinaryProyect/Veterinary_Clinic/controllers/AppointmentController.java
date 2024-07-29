@@ -35,5 +35,9 @@ public class AppointmentController {
     public Appointment createAppointment(@RequestBody Appointment appointment) {
         return appointmentServices.createAppointment(appointment);
     }
+    @PutMapping(path = "/appointment/{id}")
+    public void updateImage(@RequestBody Appointment appointment, @PathVariable long id) {
+        appointmentServices.updateAppointment(appointment, id);
+    }
 
 }

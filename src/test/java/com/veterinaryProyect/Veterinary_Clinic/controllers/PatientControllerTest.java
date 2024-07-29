@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.veterinaryProyect.Veterinary_Clinic.models.Patient;
 import com.veterinaryProyect.Veterinary_Clinic.services.PatientServices;
@@ -15,9 +16,12 @@ import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = PatientController.class)
@@ -115,4 +119,25 @@ public class PatientControllerTest {
         verify(patientServices, times(1)).createPatient(any(Patient.class));
     }
 
+    @Test
+    void updatePatient() throws Exception {
+        Patient updatedPatient = new Patient();
+        updatedPatient.setId(1L);
+        updatedPatient.setName("Buddy");
+        updatedPatient.setAge(5);
+        updatedPatient.setBreed("Golden Retriever");
+        updatedPatient.setGender("Male");
+        updatedPatient.setIdentificationNumber("12345");
+        updatedPatient.setTutorFirstName("John");
+        updatedPatient.setTutorLastName("Doe");
+        updatedPatient.setTutorPhoneNumber("555-1234");
+
+        doNothing().when(patientServices).updatePatient(updatedPatient,1L);
+
+        mockMvc.perform(put("/patient/1")
+                        .contentType("application/json")
+                        .content("{\"id\":1,\"name\":\"Buddy\",\"age\":5,\"breed\":\"Golden Retriever\",\"gender\":\"Male\",\"identificationNumber\":\"12345\",\"tutorFirstName\":\"John\",\"tutorLastName\":\"Doe\",\"tutorPhoneNumber\":\"555-1234\"}"))
+                .andExpect(status().isOk());
+
+    }
 }

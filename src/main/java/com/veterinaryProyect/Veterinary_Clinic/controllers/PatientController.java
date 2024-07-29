@@ -32,4 +32,8 @@ public class PatientController {
         return patientServices.createPatient(patient);
     }
 
+    @PutMapping(path = "/patient/{id}")
+    public void updateImage(@RequestBody Patient patient, @PathVariable long id) {
+        patientServices.updatePatient(patient, id);
+    }
 }

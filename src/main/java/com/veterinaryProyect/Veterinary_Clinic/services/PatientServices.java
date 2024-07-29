@@ -29,4 +29,9 @@ public class PatientServices {
     public Patient createPatient(Patient patient) {
         return iPatientRepository.save(patient);
     }
+
+    public void updatePatient(Patient patient, long id) {
+        patient.setId(id);
+        iPatientRepository.save(patient);
+    }
 }
