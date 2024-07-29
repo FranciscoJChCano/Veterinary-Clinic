@@ -15,7 +15,9 @@ import com.veterinaryProyect.Veterinary_Clinic.services.AppointmentServices;
 import com.veterinaryProyect.Veterinary_Clinic.services.PatientServices;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
@@ -25,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-
+@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = AppointmentController.class)
 public class AppointmentControllerTest {
 

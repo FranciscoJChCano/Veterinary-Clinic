@@ -1,10 +1,9 @@
 package com.veterinaryProyect.Veterinary_Clinic.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.veterinaryProyect.Veterinary_Clinic.models.Appointment;
 import com.veterinaryProyect.Veterinary_Clinic.models.Patient;
@@ -25,6 +24,8 @@ public class AppointmentServicesTest {
 
     @Mock
     private IAppointmentRepository iAppointmentRepository;
+
+    private Appointment appointment;
 
     @BeforeEach
     public void setUp() {
@@ -53,6 +54,41 @@ public class AppointmentServicesTest {
 
         verify(iAppointmentRepository).save(appointment);
         assertEquals(appointmentId, appointment.getId());
+    }
+
+    @Test
+    void test_Create_Appointment_Id() {
+        Appointment appointment = new Appointment();
+        when(iAppointmentRepository.save(any(Appointment.class))).thenReturn(appointment);
+
+        Appointment result = appointmentServices.createAppointment(appointment);
+
+        assertNotNull(result);
+        verify(iAppointmentRepository, times(1)).save(any(Appointment.class));
+    }
+
+    @Test
+    void test_Create_Appointment_reason() {
+        Appointment appointment = new Appointment();
+        appointment.setReason("General check");
+        when(iAppointmentRepository.save(any(Appointment.class))).thenReturn(appointment);
+
+        Appointment result = appointmentServices.createAppointment(appointment);
+
+        assertNotNull(result);
+        verify(iAppointmentRepository).save(any(Appointment.class));
+    }
+
+    @Test
+    void test_Create_Appointment_status() {
+        Appointment appointment = new Appointment();
+        appointment.setStatus(false);
+        when(iAppointmentRepository.save(any(Appointment.class))).thenReturn(appointment);
+
+        Appointment result = appointmentServices.createAppointment(appointment);
+
+        assertNotNull(result);
+        verify(iAppointmentRepository).save(any(Appointment.class));
     }
 }
 
