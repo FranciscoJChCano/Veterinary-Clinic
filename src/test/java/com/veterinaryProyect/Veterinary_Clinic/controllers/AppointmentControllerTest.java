@@ -89,7 +89,7 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    void testGetAllAppoinment() throws Exception {
+    void testGetAllAppointment() throws Exception {
         when(appointmentServices.getAllAppointment()).thenReturn(new ArrayList<>());
 
         mockMvc.perform(get("/appointment").contentType(MediaType.APPLICATION_JSON))
