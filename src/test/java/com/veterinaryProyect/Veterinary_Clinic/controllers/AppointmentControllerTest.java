@@ -5,9 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.veterinaryProyect.Veterinary_Clinic.models.Appointment;
+import com.veterinaryProyect.Veterinary_Clinic.models.Patient;
 import com.veterinaryProyect.Veterinary_Clinic.services.AppointmentServices;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +22,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 @WebMvcTest(controllers = AppointmentController.class)
@@ -69,4 +74,28 @@ public class AppointmentControllerTest {
         verify(appointmentServices, times(1)).createAppointment(any(Appointment.class));
     }
 
+    @Test
+    void testGetAllAppoinment() throws Exception {
+        when(appointmentServices.getAllAppointment()).thenReturn(new ArrayList<>());
+
+        mockMvc.perform(get("/appointment").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(appointmentServices, times(1)).getAllAppointment();
+    }
+
+    @Test
+    void testGetAppointmentById() throws Exception {
+        Appointment appointment = new Appointment();
+        appointment.setId(1L);
+
+
+        when(appointmentServices.getById(1L)).thenReturn(appointment);
+
+        mockMvc.perform(get("/appointment/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1));
+
+        verify(appointmentServices, times(1)).getById(1L);
+    }
 }
