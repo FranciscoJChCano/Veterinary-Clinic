@@ -15,17 +15,17 @@ public class AppointmentController {
     @Autowired
     AppointmentServices appointmentServices;
 
-    @GetMapping(path = "/appointment")
+    @GetMapping(path = "/appointments")
     public List<Appointment> getAllAppointment() {
         return appointmentServices.getAllAppointment();
     }
 
-    @GetMapping(path = "/appointment/{id}")
+    @GetMapping(path = "/appointments/{id}")
     public Appointment getAppointmentById(@PathVariable("id") Long id) {
         return appointmentServices.getById(id);
     }
 
-    @DeleteMapping(path = "/appointment/{id}")
+    @DeleteMapping(path = "/appointments/{id}")
     public void deleteAppointmentById(@PathVariable("id") Long id) {
         appointmentServices.deleteAppointment(id);
 
@@ -35,7 +35,7 @@ public class AppointmentController {
     public Appointment createAppointment(@RequestBody Appointment appointment) {
         return appointmentServices.createAppointment(appointment);
     }
-    @PutMapping(path = "/appointment/{id}")
+    @PutMapping(path = "/appointments/{id}")
     public void updateImage(@RequestBody Appointment appointment, @PathVariable long id) {
         appointmentServices.updateAppointment(appointment, id);
     }

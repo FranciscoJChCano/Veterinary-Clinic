@@ -44,7 +44,7 @@ public class AppointmentControllerTest {
     public void deleteAppointmentById_ShouldReturnOk() throws Exception {
         Long id = 1L;
 
-        mockMvc.perform(delete("/appointment/{id}", id)).andExpect(status().isOk());
+        mockMvc.perform(delete("/appointments/{id}", id)).andExpect(status().isOk());
 
         verify(appointmentServices).deleteAppointment(id);
     }
@@ -82,7 +82,7 @@ public class AppointmentControllerTest {
 
         doNothing().when(appointmentServices).updateAppointment(updatedAppointment,1L);
 
-        mockMvc.perform(put("/appointment/1")
+        mockMvc.perform(put("/appointments/1")
                         .contentType("application/json")
                         .content("{\"id\":1,\"dateTime\":\"2023-07-01T10:00:00\",\"reason\":\"Check-up\",\"consultationType\":\"General\",\"status\":true,\"patient\":{}}"))
                 .andExpect(status().isOk());
@@ -92,7 +92,7 @@ public class AppointmentControllerTest {
     void testGetAllAppointment() throws Exception {
         when(appointmentServices.getAllAppointment()).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/appointment").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/appointments").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         verify(appointmentServices, times(1)).getAllAppointment();
@@ -106,7 +106,7 @@ public class AppointmentControllerTest {
 
         when(appointmentServices.getById(1L)).thenReturn(appointment);
 
-        mockMvc.perform(get("/appointment/1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/appointments/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
 

@@ -43,7 +43,7 @@ public class PatientControllerTest {
     public void deletePatientById_ShouldReturnOk() throws Exception {
         Long id = 1L;
 
-        mockMvc.perform(delete("/patient/{id}", id))
+        mockMvc.perform(delete("/patients/{id}", id))
                 .andExpect(status().isOk());
 
         verify(patientServices).deletePatient(id);
@@ -135,7 +135,7 @@ public class PatientControllerTest {
 
         doNothing().when(patientServices).updatePatient(updatedPatient,1L);
 
-        mockMvc.perform(put("/patient/1")
+        mockMvc.perform(put("/patients/1")
                         .contentType("application/json")
                         .content("{\"id\":1,\"name\":\"Buddy\",\"age\":5,\"breed\":\"Golden Retriever\",\"gender\":\"Male\",\"identificationNumber\":\"12345\",\"tutorFirstName\":\"John\",\"tutorLastName\":\"Doe\",\"tutorPhoneNumber\":\"555-1234\"}"))
                 .andExpect(status().isOk());
@@ -146,7 +146,7 @@ public class PatientControllerTest {
     void testGetAllPatient() throws Exception {
         when(patientServices.getAllPatient()).thenReturn(new ArrayList<>());
 
-        mockMvc.perform(get("/patient").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/patients").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
         verify(patientServices, times(1)).getAllPatient();
@@ -160,7 +160,7 @@ public class PatientControllerTest {
 
         when(patientServices.getById(1L)).thenReturn(patient);
 
-        mockMvc.perform(get("/patient/1").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/patients/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
 

@@ -51,6 +51,6 @@ public class Patient {
     @Column(name = "profileImage")
     private String profileImage;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointment;
 }

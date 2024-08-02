@@ -33,7 +33,7 @@ public class Appointment {
     @Column(name = "status")
     private boolean status;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "patient_id")
     private Patient patient;
 

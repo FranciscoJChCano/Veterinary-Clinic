@@ -14,17 +14,17 @@ public class PatientController {
     @Autowired
     PatientServices patientServices;
 
-    @GetMapping(path = "/patient")
+    @GetMapping(path = "/patients")
     public List<Patient> getAllPatient() {
         return patientServices.getAllPatient();
     }
 
-    @GetMapping(path = "/patient/{id}")
+    @GetMapping(path = "/patients/{id}")
     public Patient getPatientById(@PathVariable("id") Long id) {
         return patientServices.getById(id);
     }
 
-    @DeleteMapping(path = "/patient/{id}")
+    @DeleteMapping(path = "/patients/{id}")
     public void deletePatientById(@PathVariable("id") Long id) {patientServices.deletePatient(id); }
 
     @PostMapping(path = "/patients")
@@ -32,7 +32,7 @@ public class PatientController {
         return patientServices.createPatient(patient);
     }
 
-    @PutMapping(path = "/patient/{id}")
+    @PutMapping(path = "/patients/{id}")
     public void updateImage(@RequestBody Patient patient, @PathVariable long id) {
         patientServices.updatePatient(patient, id);
     }
