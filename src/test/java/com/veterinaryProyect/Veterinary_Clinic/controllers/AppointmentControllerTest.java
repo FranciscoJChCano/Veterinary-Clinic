@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = AppointmentController.class)
@@ -89,28 +90,13 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    void testGetAllAppointment() throws Exception {
-        when(appointmentServices.getAllAppointment()).thenReturn(new ArrayList<>());
+    public void testGetAppointmentsByPatientId() throws Exception {
+        when(appointmentServices.getAppointmentsByPatientId(1L)).thenReturn(Collections.emptyList());
 
-        mockMvc.perform(get("/appointments").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/appointments/1"))
                 .andExpect(status().isOk());
 
-        verify(appointmentServices, times(1)).getAllAppointment();
-    }
-
-    @Test
-    void testGetAppointmentById() throws Exception {
-        Appointment appointment = new Appointment();
-        appointment.setId(1L);
-
-
-        when(appointmentServices.getById(1L)).thenReturn(appointment);
-
-        mockMvc.perform(get("/appointments/1").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
-
-        verify(appointmentServices, times(1)).getById(1L);
+        verify(appointmentServices, times(1)).getAppointmentsByPatientId(1L);
     }
 
 

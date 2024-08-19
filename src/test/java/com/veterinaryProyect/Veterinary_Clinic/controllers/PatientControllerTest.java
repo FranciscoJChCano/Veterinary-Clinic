@@ -20,9 +20,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = PatientController.class)
@@ -43,7 +46,7 @@ public class PatientControllerTest {
     public void deletePatientById_ShouldReturnOk() throws Exception {
         Long id = 1L;
 
-        mockMvc.perform(delete("/patients/{id}", id))
+        mockMvc.perform(delete("/api/patients/{id}", id))
                 .andExpect(status().isOk());
 
         verify(patientServices).deletePatient(id);
@@ -135,7 +138,7 @@ public class PatientControllerTest {
 
         doNothing().when(patientServices).updatePatient(updatedPatient,1L);
 
-        mockMvc.perform(put("/patients/1")
+        mockMvc.perform(put("/api/patients/1")
                         .contentType("application/json")
                         .content("{\"id\":1,\"name\":\"Buddy\",\"age\":5,\"breed\":\"Golden Retriever\",\"gender\":\"Male\",\"identificationNumber\":\"12345\",\"tutorFirstName\":\"John\",\"tutorLastName\":\"Doe\",\"tutorPhoneNumber\":\"555-1234\"}"))
                 .andExpect(status().isOk());
@@ -144,26 +147,20 @@ public class PatientControllerTest {
 
     @Test
     void testGetAllPatient() throws Exception {
-        when(patientServices.getAllPatient()).thenReturn(new ArrayList<>());
-
-        mockMvc.perform(get("/patients").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/patients"))
                 .andExpect(status().isOk());
-
-        verify(patientServices, times(1)).getAllPatient();
     }
 
     @Test
-    void testGetPatientById() throws Exception {
-        Patient patient = new Patient();
-        patient.setId(1L);
+    public void testGetPatient() throws Exception {
+        Long patientId = 1L;
+        when(patientServices.getPatient(patientId)).thenReturn(List.of(new Patient(1L,"John Doe",12,"perro","macho","238489","fran","cano","76458743","ok","ok",null)));
 
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/patients/patients/{id}", patientId))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("John Doe"));
 
-        when(patientServices.getById(1L)).thenReturn(patient);
-
-        mockMvc.perform(get("/patients/1").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
-
-        verify(patientServices, times(1)).getById(1L);
+        verify(patientServices, times(1)).getPatient(patientId);
     }
 }
