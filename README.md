@@ -34,12 +34,12 @@ Appointment status (pending, completed)
 ### Functional Requirements
 Access to Patient Data: The system must allow access to a patient's information using their identification number.
 Treatment Records: The application must provide access to the treatments performed on each patient.
-Additional Features (Extras)
+Additional Features 
 Patient Profile Image: Ability to add an image to each patient’s profile.
-User Registration: Implement a user registration and management system for accessing the application.
 DTOs (Data Transfer Objects): Implement DTOs for better data transfer between layers of the application.
 Dockerization: Containerize the application using Docker to facilitate deployment.
-Technical Requirements
+
+### Technical Requirements
 Java Knowledge: The development of the application will be done in the Java programming language.
 Object-Oriented Programming (OOP): The system design will follow OOP principles to ensure maintainable and scalable code.
 Best Practices: Best programming practices will be adopted to ensure code quality, including the use of design patterns, SOLID principles, and proper dependency management.
