@@ -1,7 +1,6 @@
 package com.veterinaryProyect.Veterinary_Clinic.services;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -123,13 +123,33 @@ public class PatientServicesTest {
     }
 
     @Test
-    void testGetPatientById() {
+    public void testGetPatient_Success() {
+        Long id = 1L;
         Patient patient = new Patient();
-        when(iPatientRepository.findById(1L)).thenReturn(Optional.of(patient));
+        patient.setId(id);
 
-        Patient result = patientService.getById(1L);
+        when(iPatientRepository.findById(id)).thenReturn(Optional.of(patient));
+
+        List<Patient> result = patientService.getPatient(id);
 
         assertNotNull(result);
-        verify(iPatientRepository, times(1)).findById(1L);
+        assertEquals(1, result.size());
+        assertEquals(patient, result.get(0));
     }
+    @Test
+    public void testGetPatient_NotFound() {
+        Long id = 1L;
+
+        when(iPatientRepository.findById(id)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            patientService.getPatient(id);
+        });
+
+        String expectedMessage = "Patient not found with id " + id;
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
 }

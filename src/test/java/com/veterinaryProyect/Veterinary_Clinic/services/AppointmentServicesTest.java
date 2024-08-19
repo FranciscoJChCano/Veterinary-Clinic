@@ -12,10 +12,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,29 +96,21 @@ public class AppointmentServicesTest {
     }
 
     @Test
-    void testGetAllAppointment() {
-        ArrayList<Appointment> AppointmentList = new ArrayList<>();
-        Appointment appointment = new Appointment();
-        AppointmentList.add(appointment);
+    void testGetAppointmentsByPatientId() {
+        // Arrange
+        Long patientId = 1L;
+        Appointment appointment1 = new Appointment(1L,null,"null",null,true,null);
+        Appointment appointment2 = new Appointment(2L, null,"null",null,true,null);
+        List<Appointment> expectedAppointments = Arrays.asList(appointment1, appointment2);
 
-        when(iAppointmentRepository.findAll()).thenReturn(AppointmentList);
+        when(iAppointmentRepository.findByPatientId(patientId)).thenReturn(expectedAppointments);
 
-        List<Appointment> result = appointmentServices.getAllAppointment();
+        // Act
+        List<Appointment> actualAppointments = appointmentServices.getAppointmentsByPatientId(patientId);
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(iAppointmentRepository, times(1)).findAll();
+        // Assert
+        assertEquals(expectedAppointments, actualAppointments);
     }
 
-    @Test
-    void testGetAppointmentById() {
-        Appointment appointment = new Appointment();
-        when(iAppointmentRepository.findById(1L)).thenReturn(Optional.of(appointment));
-
-        Appointment result = appointmentServices.getById(1L);
-
-        assertNotNull(result);
-        verify(iAppointmentRepository, times(1)).findById(1L);
-    }
 }
 
