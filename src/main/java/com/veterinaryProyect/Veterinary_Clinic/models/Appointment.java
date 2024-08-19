@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Getter
 @Setter
@@ -35,6 +37,6 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
+    @JsonBackReference
     private Patient patient;
-
 }

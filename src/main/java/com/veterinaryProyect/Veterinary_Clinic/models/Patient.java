@@ -9,9 +9,12 @@ import lombok.Setter;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "patient")
@@ -42,7 +45,7 @@ public class Patient {
     @Column(name = "tutorLastName")
     private String tutorLastName;
 
-    @Column(name = "tutorphoneNumber")
+    @Column(name = "tutorPhoneNumber")
     private String tutorPhoneNumber;
 
     @Column(name = "treatment")
@@ -52,5 +55,6 @@ public class Patient {
     private String profileImage;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
-    private List<Appointment> appointment;
+    @JsonManagedReference
+    private List<Appointment> appointments;
 }

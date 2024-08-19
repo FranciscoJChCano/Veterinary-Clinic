@@ -9,34 +9,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     @Autowired
     AppointmentServices appointmentServices;
 
-    @GetMapping(path = "/appointments")
+    @GetMapping("/{patient_Id}")
+    public List<Appointment> getAppointmentsByPatientId(@PathVariable Long patient_Id) {
+        return appointmentServices.getAppointmentsByPatientId(patient_Id);
+    }
+    @GetMapping("/appointment/{id}")
+    public List<Appointment> getAppointmen(@PathVariable Long id) {
+        return appointmentServices.getAppointment(id);
+    }
+
+    @GetMapping("/appointments")
     public List<Appointment> getAllAppointment() {
         return appointmentServices.getAllAppointment();
     }
 
-    @GetMapping(path = "/appointments/{id}")
-    public Appointment getAppointmentById(@PathVariable("id") Long id) {
-        return appointmentServices.getById(id);
-    }
-
-    @DeleteMapping(path = "/appointments/{id}")
+    @DeleteMapping(path = "/{id}")
     public void deleteAppointmentById(@PathVariable("id") Long id) {
         appointmentServices.deleteAppointment(id);
 
     }
 
-    @PostMapping(path = "/appointments")
+    @PostMapping(path = "")
     public Appointment createAppointment(@RequestBody Appointment appointment) {
         return appointmentServices.createAppointment(appointment);
     }
-    @PutMapping(path = "/appointments/{id}")
-    public void updateImage(@RequestBody Appointment appointment, @PathVariable long id) {
+    @PutMapping(path = "/{id}")
+    public void updateImage(@RequestBody Appointment appointment, @PathVariable Long id) {
         appointmentServices.updateAppointment(appointment, id);
     }
 
