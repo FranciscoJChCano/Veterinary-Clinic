@@ -19,29 +19,19 @@ public class AppointmentController {
     public List<Appointment> getAppointmentsByPatientId(@PathVariable Long patient_Id) {
         return appointmentServices.getAppointmentsByPatientId(patient_Id);
     }
-    @GetMapping("/appointment/{id}")
-    public List<Appointment> getAppointmen(@PathVariable Long id) {
-        return appointmentServices.getAppointment(id);
-    }
-
-    @GetMapping("/appointments")
-    public List<Appointment> getAllAppointment() {
-        return appointmentServices.getAllAppointment();
-    }
 
     @DeleteMapping(path = "/{id}")
     public void deleteAppointmentById(@PathVariable("id") Long id) {
         appointmentServices.deleteAppointment(id);
-
     }
 
     @PostMapping(path = "")
     public Appointment createAppointment(@RequestBody Appointment appointment) {
         return appointmentServices.createAppointment(appointment);
     }
+
     @PutMapping(path = "/{id}")
     public void updateImage(@RequestBody Appointment appointment, @PathVariable Long id) {
         appointmentServices.updateAppointment(appointment, id);
     }
-
 }

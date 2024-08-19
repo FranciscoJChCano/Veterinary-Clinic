@@ -5,6 +5,7 @@ import com.veterinaryProyect.Veterinary_Clinic.repositories.IPatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,11 +18,10 @@ public class PatientServices {
         return (List<Patient>) iPatientRepository.findAll();
     }
 
-    public Patient getById(Long id) {
-        Patient patient;
-        patient = iPatientRepository.findById(id).orElseThrow();
-        return patient;
-
+    public List<Patient> getPatient(Long id) {
+        Patient patient = iPatientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found with id " + id));
+        return Collections.singletonList(patient);
     }
 
     public void deletePatient(long id) {iPatientRepository.deleteById(id); }

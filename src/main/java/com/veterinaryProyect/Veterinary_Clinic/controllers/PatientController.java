@@ -19,9 +19,9 @@ public class PatientController {
         return patientServices.getAllPatient();
     }
 
-    @GetMapping(path = "/{id}")
-    public Patient getPatientById(@PathVariable("id") Long id) {
-        return patientServices.getById(id);
+    @GetMapping(path = "/patients/{id}")
+    public List<Patient> getPatient(@PathVariable("id") Long id) {
+        return patientServices.getPatient(id);
     }
 
     @DeleteMapping(path = "/{id}")

@@ -14,16 +14,8 @@ public class AppointmentServices {
     @Autowired
     IAppointmentRepository iAppointmentRepository;
 
-
-    public List<Appointment> getAllAppointment() {
-        return (List<Appointment>) iAppointmentRepository.findAll();
-    }
-
     public List<Appointment> getAppointmentsByPatientId(Long patient_Id) {
         return iAppointmentRepository.findByPatientId(patient_Id);
-    }
-    public List<Appointment> getAppointment(Long id) {
-        return iAppointmentRepository.findByPatientId(id);
     }
 
     public void deleteAppointment(long id) {iAppointmentRepository.deleteById(id); }
