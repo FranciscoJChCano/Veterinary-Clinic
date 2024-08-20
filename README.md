@@ -34,7 +34,7 @@ Appointment status (pending, completed)
 ### Functional Requirements
 Access to Patient Data: The system must allow access to a patient's information using their identification number.
 Treatment Records: The application must provide access to the treatments performed on each patient.
-Additional Features
+Additional Features 
 Patient Profile Image: Ability to add an image to each patient’s profile.
 DTOs (Data Transfer Objects): Implement DTOs for better data transfer between layers of the application.
 Dockerization: Containerize the application using Docker to facilitate deployment.
@@ -75,4 +75,3 @@ PUT http://localhost:8080/appointments/${id}
 Delete an Appointment
 
 DELETE http://localhost:8080/appointments/${id}
-
